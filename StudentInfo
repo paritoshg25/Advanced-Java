@@ -4,73 +4,84 @@ import java.util.Scanner;
 public class StudentInfo {
 
 	public static void main(String[] args) {
-		Scanner myObj = new Scanner(System.in);
+		Scanner input = new Scanner(System.in);
 		
 		System.out.println("STUDENT INFORMATION");
 		System.out.println("1. Insert\n2. Update\n3. Delete\n4. Exit");
-		System.out.println("Enter Choice: ");
-		int ch = myObj.nextInt();
-		
-		switch(ch) {
-		case 1:
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student","root","");
-				
-				PreparedStatement stmt = con.prepareStatement("insert into std values(?,?,?)");
-				stmt.setInt(1, 190);
-				stmt.setString(2, "Paritosh");
-				stmt.setString(3, "Kadi");
-				int i = stmt.executeUpdate();
-				System.out.print(i+" Record Inserted");
-				con.close();
-				
-			}catch(Exception e) {
-				System.out.print(e);
+		System.out.print("Enter Choice: ");
+		int ch = input.nextInt();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student-info","root","");
+			
+			switch(ch) {
+			case 1:
+				try {				
+					PreparedStatement stmt = con.prepareStatement("insert into std values(?,?,?)");
+					System.out.print("Enter id:");
+					int id = input.nextInt();
+					
+					System.out.println("Enter Name:");
+					String name = input.nextLine();
+					
+					System.out.println("Enter City:");
+					String city = input.nextLine();
+					
+					stmt.setInt(1, id);
+					stmt.setString(2, name);
+					stmt.setString(3, city);
+					int i = stmt.executeUpdate();
+					System.out.print(i+" Record Inserted");
+					con.close();
+					
+				}catch(Exception e) {
+					System.out.print(e);
 
-			}
-			break;
-			
-		case 2:
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student","root","");
-				PreparedStatement stmt = con.prepareStatement("update std set name=? where id=?");
-				stmt.setString(1, "Nandu");
-				stmt.setInt(2, 1);
-				int i = stmt.executeUpdate();
-				System.out.print(i+" Record Updated");
-				con.close();
+				}
+				break;
 				
-			}catch(Exception e) {
-				System.out.print(e);
+			case 2:
+				try {
+					PreparedStatement stmt = con.prepareStatement("update std set name=? where id=?");
+					stmt.setString(1, "Nandita");
+					stmt.setInt(2, 1);
+					int i = stmt.executeUpdate();
+					System.out.print(i+" Record Updated");
+					con.close();
+					
+				}catch(Exception e) {
+					System.out.print(e);
 
-			}
-			break;
-			
-		case 3:
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student","root","");
-				PreparedStatement stmt = con.prepareStatement("DELETE FROM `std` WHERE `id`=?");
-				stmt.setInt(1, 001);
-				int i = stmt.executeUpdate();
-				System.out.print(i+" Record Deleted");
-				con.close();
+				}
+				break;
 				
-			}catch(Exception e) {
-				System.out.print(e);
+			case 3:
+				try {
+					PreparedStatement stmt = con.prepareStatement("DELETE FROM `std` WHERE `id`=?");
+					stmt.setInt(1, 001);
+					int i = stmt.executeUpdate();
+					System.out.print(i+" Record Deleted");
+					con.close();
+					
+				}catch(Exception e) {
+					System.out.print(e);
 
+				}
+				break;
+				
+			case 4:
+				System.exit(0);
+				
+			default:
+				System.out.println("Invalid Input!!!");
+			
 			}
-			break;
 			
-		case 4:
-			System.exit(0);
-			
-		default:
-			System.out.println("Invalid Input!!!");
-		
+		}catch(Exception e) {
+			System.out.println(e);
 		}
+		
+		
 	}
 
 }
