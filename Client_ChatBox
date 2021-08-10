@@ -18,14 +18,15 @@ class Client implements ActionListener {
 		t2 = new JTextField();
 		l1 = new JLabel();
 		l1.setText("Client Matchine");
-		l1.setBounds(50,25,100,30); 
+		l1.setBounds(50,20,100,30); 
 		l2 = new JLabel("Type your Message...");
 		send = new JButton("Send");
-		t1.setBounds(40,20,350,300);
+		t1.setBounds(10,10,250,200);
 		t1.setEditable(false);
 		t2.setBounds(60,380,100,40);
 		
 		send.setBounds(180,380,100,40);
+		f.add(l1);
 		f.add(t1);
 		f.add(t2);
 		f.add(send);
@@ -54,10 +55,5 @@ class Client implements ActionListener {
 		new Client();
 
 	}
-
-
-
-	
-
 
 }
