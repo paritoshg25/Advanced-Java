@@ -1,0 +1,63 @@
+package chat;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+
+class Client implements ActionListener {
+
+	JFrame f;
+	JTextField t1, t2;
+	JLabel l1, l2;
+	JButton send;
+	
+	Client(){
+		f = new JFrame("Chat Application");
+		t1 = new JTextField();
+		t2 = new JTextField();
+		l1 = new JLabel();
+		l1.setText("Client Matchine");
+		l1.setBounds(50,25,100,30); 
+		l2 = new JLabel("Type your Message...");
+		send = new JButton("Send");
+		t1.setBounds(40,20,350,300);
+		t1.setEditable(false);
+		t2.setBounds(60,380,100,40);
+		
+		send.setBounds(180,380,100,40);
+		f.add(t1);
+		f.add(t2);
+		f.add(send);
+		
+		f.setLayout(null);
+		f.setVisible(true);
+		f.setSize(500,500);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setResizable(false);
+		
+		send.addActionListener(this);
+		t2.addActionListener(this);
+		}
+	
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==send) {
+			t1.setText(t2.getText());
+		}
+		
+	}
+	
+	
+	public static void main(String[] args) {
+		new Client();
+
+	}
+
+
+
+	
+
+
+}
