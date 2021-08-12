@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -24,6 +25,8 @@ public class ServerChat extends JFrame {
 	static Socket s;
 	static DataInputStream dis;
 	static DataOutputStream dos;
+	
+	
 	
 	private JPanel contentPane;
 	private JTextField l2;
@@ -43,8 +46,18 @@ public class ServerChat extends JFrame {
 			}
 		});
 		
-		ss = new ServerSocket();
-		s = new Socket();
+		
+		try {
+			ss = new ServerSocket();
+			s = new Socket();
+			dis = new DataInputStream(s.getInputStream());
+			dos = new DataOutputStream(s.getOutputStream());
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 	}
 
