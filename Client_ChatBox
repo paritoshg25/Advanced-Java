@@ -1,59 +1,97 @@
 package chat;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-class Client implements ActionListener {
+import javax.swing.JTextArea;
 
-	JFrame f;
-	JTextField t1, t2;
-	JLabel l1, l2;
-	JButton send;
-	
-	Client(){
-		f = new JFrame("Chat Application");
-		t1 = new JTextField();
-		t2 = new JTextField();
-		l1 = new JLabel();
-		l1.setText("Client Matchine");
-		l1.setBounds(50,20,100,30); 
-		l2 = new JLabel("Type your Message...");
-		send = new JButton("Send");
-		t1.setBounds(10,10,250,200);
-		t1.setEditable(false);
-		t2.setBounds(60,380,100,40);
-		
-		send.setBounds(180,380,100,40);
-		f.add(l1);
-		f.add(t1);
-		f.add(t2);
-		f.add(send);
-		
-		f.setLayout(null);
-		f.setVisible(true);
-		f.setSize(500,500);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setResizable(false);
-		
-		send.addActionListener(this);
-		t2.addActionListener(this);
-		}
+public class ClientChat extends JFrame {
+
+	static ServerSocket ss;
+	static Socket s;
+	static DataInputStream dis;
+	static DataOutputStream dos;
 	
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==send) {
-			t1.setText(t2.getText());
-		}
-		
-	}
 	
-	
+	private JPanel contentPane;
+	private JTextField l2;
+
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
-		new Client();
-
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ClientChat frame = new ClientChat();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		
+		try {
+			s = new Socket("localhost",4567);
+			dis = new DataInputStream(s.getInputStream());
+			dos = new DataOutputStream(s.getOutputStream());
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
+	/**
+	 * Create the frame.
+	 */
+	public ClientChat() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 328);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel l1 = new JLabel("Server Chat");
+		l1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		l1.setBounds(178, 0, 78, 31);
+		contentPane.add(l1);
+		
+		l2 = new JTextField();
+		l2.setBounds(17, 240, 308, 22);
+		contentPane.add(l2);
+		l2.setColumns(10);
+		
+		JButton send = new JButton("Send");
+		send.setBounds(335, 240, 89, 23);
+		contentPane.add(send);
+		
+		JLabel lblNewLabel = new JLabel("Enter your message here:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNewLabel.setBounds(17, 214, 162, 22);
+		contentPane.add(lblNewLabel);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(17, 35, 407, 168);
+		contentPane.add(textArea);
+	}
 }
