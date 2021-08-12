@@ -1,0 +1,85 @@
+package chat;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+import javax.swing.JTextArea;
+
+public class ServerChat extends JFrame {
+
+	static ServerSocket ss;
+	static Socket s;
+	static DataInputStream dis;
+	static DataOutputStream dos;
+	
+	private JPanel contentPane;
+	private JTextField l2;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ServerChat frame = new ServerChat();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		ss = new ServerSocket();
+		s = new Socket();
+		
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public ServerChat() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 328);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel l1 = new JLabel("Server Chat");
+		l1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		l1.setBounds(178, 0, 78, 31);
+		contentPane.add(l1);
+		
+		l2 = new JTextField();
+		l2.setBounds(17, 240, 308, 22);
+		contentPane.add(l2);
+		l2.setColumns(10);
+		
+		JButton send = new JButton("Send");
+		send.setBounds(335, 240, 89, 23);
+		contentPane.add(send);
+		
+		JLabel lblNewLabel = new JLabel("Enter your message here:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNewLabel.setBounds(17, 214, 162, 22);
+		contentPane.add(lblNewLabel);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(17, 35, 407, 168);
+		contentPane.add(textArea);
+	}
+}
