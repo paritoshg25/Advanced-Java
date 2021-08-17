@@ -7,13 +7,14 @@ public class StudentInfo {
 		Scanner input = new Scanner(System.in);
 		
 		System.out.println("STUDENT INFORMATION");
-		System.out.println("1. Insert\n2. Update\n3. Delete\n4. Exit");
+		int ch;
+		do {
+		System.out.println("\n1. Insert\n2. Update\n3. Delete\n4. Exit");
 		System.out.print("Enter Choice: ");
-		int ch = input.nextInt();
+		ch = input.nextInt();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student-info","root","");
-			
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student","root","");
 			switch(ch) {
 			case 1:
 				try {				
@@ -21,17 +22,17 @@ public class StudentInfo {
 					System.out.print("Enter id:");
 					int id = input.nextInt();
 					
-					System.out.println("Enter Name:");
+					System.out.print("Enter Name:");
 					String name = input.nextLine();
-					
-					System.out.println("Enter City:");
+					input.nextLine();
+					System.out.print("Enter City:");
 					String city = input.nextLine();
 					
 					stmt.setInt(1, id);
 					stmt.setString(2, name);
 					stmt.setString(3, city);
 					int i = stmt.executeUpdate();
-					System.out.print(i+" Record Inserted");
+					System.out.println(i+" Record Inserted");
 					con.close();
 					
 				}catch(Exception e) {
@@ -43,14 +44,20 @@ public class StudentInfo {
 			case 2:
 				try {
 					PreparedStatement stmt = con.prepareStatement("update std set name=? where id=?");
-					stmt.setString(1, "Nandita");
-					stmt.setInt(2, 1);
+					System.out.print("Enter Name:");
+					String name = input.nextLine();
+					stmt.setString(1, name);
+					input.nextLine();
+					System.out.print("Enter Id:");
+					int id = input.nextInt();
+					
+					stmt.setInt(2, id);
 					int i = stmt.executeUpdate();
-					System.out.print(i+" Record Updated");
+					System.out.println(i+" Record Updated");
 					con.close();
 					
 				}catch(Exception e) {
-					System.out.print(e);
+					System.out.println(e);
 
 				}
 				break;
@@ -58,13 +65,15 @@ public class StudentInfo {
 			case 3:
 				try {
 					PreparedStatement stmt = con.prepareStatement("DELETE FROM `std` WHERE `id`=?");
-					stmt.setInt(1, 001);
+					System.out.print("Enter Id:");
+					int id = input.nextInt();
+					stmt.setInt(1, id);
 					int i = stmt.executeUpdate();
-					System.out.print(i+" Record Deleted");
+					System.out.println(i+" Record Deleted");
 					con.close();
 					
 				}catch(Exception e) {
-					System.out.print(e);
+					System.out.println(e);
 
 				}
 				break;
@@ -80,7 +89,7 @@ public class StudentInfo {
 		}catch(Exception e) {
 			System.out.println(e);
 		}
-		
+		}while(ch != 4);
 		
 	}
 
