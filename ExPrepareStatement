@@ -1,0 +1,33 @@
+import java.io.DataInputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+
+public class ExPrepareStatement {
+	public static void main(String[] args) {
+		try{
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+
+			Connection cn=DriverManager.getConnection("jdbc:mysql://localhost:3306/students","root","");
+
+			//creating object of PreparedStatement class and passing parameter (?)
+			PreparedStatement smt1=cn.prepareStatement("INSERT INTO `std` (`Name`, `RollNo`, `BranchField`) VALUES ('ParitOSH', '1', 'CSE');");
+			PreparedStatement smt2=cn.prepareStatement("INSERT INTO `std` (`Name`, `RollNo`, `BranchField`) VALUES ('Nandu', '2', 'CE');");
+			PreparedStatement smt3=cn.prepareStatement("INSERT INTO `std` (`Name`, `RollNo`, `BranchField`) VALUES ('Yash', '3', 'IT');");
+
+
+			//to execute update
+			smt1.executeUpdate();
+			smt2.executeUpdate();
+			smt3.executeUpdate();
+			System.out.println("Record Submitted....");
+			
+			//close the file
+			cn.close();
+		}
+		catch(Exception e){
+			System.out.println(e);
+		}
+	}
+}
